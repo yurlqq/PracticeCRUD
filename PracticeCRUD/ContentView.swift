@@ -8,19 +8,34 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var modelData: ModelData
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        NavigationView {
+            ZStack {
+                Color(red: 0.9, green: 0.9, blue: 0.9)
+                    .ignoresSafeArea()
+                VStack(spacing: 15) {
+                    Text("로그인할 동물 선택하기")
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                    ForEach(users) { user in
+                        NavigationLink {
+                            PostsView(currentUser: user)
+                        } label: {
+                            UserRowView(user: user)
+                        }
+                        .foregroundColor(.black)
+                    }
+                }
+            }
         }
-        .padding()
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(ModelData())
     }
 }
